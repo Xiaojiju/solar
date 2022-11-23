@@ -1,0 +1,6 @@
+rootProject.name = 'solar'
+include 'solar-core'
+include 'solar-guard'
+include 'solar-test'
+include 'guard-test'
+

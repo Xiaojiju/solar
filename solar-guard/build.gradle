@@ -1,0 +1,11 @@
+repositories {
+    maven { url "https://maven.aliyun.com/repository/public/" }
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':solar-core')
+    implementation('org.springframework.boot:spring-boot-starter-security')
+    implementation('org.springframework.boot:spring-boot-starter-data-redis')
+    implementation('com.auth0:java-jwt:4.0.0')
+}
