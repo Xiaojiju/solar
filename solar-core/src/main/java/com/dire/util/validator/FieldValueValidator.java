@@ -1,6 +1,20 @@
-package com.dire.core.utils.validator;
+/*
+ * Copyright 2022 一块小饼干(莫杨)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.dire.util.validator;
 
-import com.dire.core.annotations.FieldPattern;
 import org.springframework.util.StringUtils;
 
 import javax.validation.ConstraintValidatorContext;
@@ -9,7 +23,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegexValidator extends AbstractValidator<FieldPattern> {
+/**
+ * <p>验证属性值</p>
+ * {@link #validators}验证顺序是按照引入的解析器的顺序执行的
+ * 优先验证正则表达式，在正则表示验证成功后，才会继续验证
+ * @author 一块小饼干
+ * @since 1.0.0
+ */
+public class FieldValueValidator extends AbstractValidator<FieldPattern> {
 
     private String regex;
     private Class<? extends Validator>[] validators;

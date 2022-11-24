@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dire.core.utils.page;
+package com.dire.util.page;
 
 /**
- * 实现分页查询的基础规范，其中分页默认当前页码为1，默认大小为12，继承该类的同时，需要结合整体的业务，构建较为通用
- * 的查询条件类，防止继承类的膨胀，达到难以维护的地步；
+ * <p>实现分页查询的基础规范，其中分页默认当前页码为1，默认大小为12{@link com.dire.util.page.Page}
+ * 继承该类的同时，需要结合整体的业务，构建较为通用的查询条件类，防止继承类的膨胀，达到难以维护的地步；
  * @author 一块小饼干
  * @since 1.0.0
  */
 public class PageQuery implements Page {
 
-    private long current = 1;
-    private long size = 12;
+    private long current = Page.CURRENT;
+    private long size = Page.SIZE;
 
     @Override
     public long getCurrent() {

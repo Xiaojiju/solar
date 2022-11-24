@@ -13,27 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dire.core.utils.page;
-
-import java.io.Serializable;
+package com.dire.util.validator;
 
 /**
- * 定义查询分页的基本方法
+ * <p>定义值验证方法，可以进行实现此定义，对要求不同或者不同场景的值进行验证</p>
+ * <br/><p>例如：</p>
+ * <pre>
+ *     public class IDValidator implements Validator<String> {
+ *
+ *         public boolean validate(String source) {
+ *             return source != null && source.length();
+ *         }
+ *     }
+ * </pre>
+ * @param <T> 需要验证的属性类型
  * @author 一块小饼干
  * @since 1.0.0
  */
-public interface Page extends Serializable {
+public interface Validator {
 
     /**
-     * 当前页码
-     * @return 页码，不可以为负数
+     * 验证属性值
+     * @param source 属性值
+     * @return true 成功 false 失败
+     * @since 1.0.0
      */
-    long getCurrent();
-
-    /**
-     * 每页大小
-     * @return 应当包含默认的大小，不可以为负数
-     */
-    long getSize();
+    boolean validate(Object source);
 
 }

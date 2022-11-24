@@ -13,27 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dire.core.utils.page;
+package com.dire.util;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.function.Predicate;
 
 /**
- * 分页统一结果，其中指定返回的段落总数以及当前页的段落，如果当前包含的页为空，应返回空数组，防止null的出现；
- * @param <T> 分页结果的对象
+ * 简单的树形结构方法
+ * @param <T> 节点类
  * @author 一块小饼干
  * @since 1.0.0
  */
-public interface PageResult<T> extends Page {
+public interface Tree<T> {
 
     /**
-     * 能够操作的段落的总数
-     * @return 总数，应默认为0，且不能为负数
+     * 在树上查找符合条件的节点
+     * @param function {@link Predicate} 查找条件
+     * @return 返回符合条件的节点以及其子节点
+     * @since 1.0.0
      */
-    long getTotal();
+    Tree<T> find(Predicate<T> function);
 
     /**
-     * 段落内容，段落内容应尽量排除Map等不显示显示内容构建对象的容器，若使用，则应该声明对象类来进行装配
-     * @return 段落内容
+     * 转为数组
+     * @return 返回数组
+     * @since 1.0.0
      */
-    Collection<T> getItems();
+    List<T> toArray();
 }

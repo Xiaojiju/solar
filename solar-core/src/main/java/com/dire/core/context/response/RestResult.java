@@ -1,0 +1,117 @@
+/*
+ * Copyright 2022 一块小饼干(莫杨)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.dire.core.context.response;
+
+import java.io.Serializable;
+
+/**
+ * rest请求标准响应模板
+ * @param <T> 响应对象类，响应对象类尽量不使用{@link java.util.Map}
+ * @author 一块小饼干
+ * @since 1.0.0
+ */
+public class RestResult<T> implements Serializable {
+
+    /**
+     * 状态码
+     */
+    private int code;
+
+    /**
+     * 响应消息
+     */
+    private String message;
+
+    /**
+     * 负载内容
+     */
+    private T data;
+
+    public RestResult() {
+    }
+
+    public RestResult(int code, String message) {
+        this(code, message, null);
+    }
+
+    public RestResult(int code, String message, T data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
+    }
+
+    public static <T> RestResult<T> success() {
+        return success(null);
+    }
+
+    public static <T> RestResult<T> success(T data) {
+        return new RestResultBuilder<T>().setData(data).build();
+    }
+
+    public static <T> RestResult<T> error(int code, String message) {
+        return new RestResult<>(code, message);
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    private static class RestResultBuilder<T> {
+
+        private int code;
+        private String message;
+        private T data;
+
+        public RestResult<T> build() {
+            return new RestResult<>(this.code, this.message, this.data);
+        }
+
+        public RestResultBuilder<T> setCode(int code) {
+            this.code = code;
+            return this;
+        }
+
+        public RestResultBuilder<T> setMessage(String message) {
+            this.message = message;
+            return this;
+        }
+
+        public RestResultBuilder<T> setData(T data) {
+            this.data = data;
+            return this;
+        }
+    }
+}
