@@ -89,6 +89,12 @@ public class RestResult<T> implements Serializable {
         this.data = data;
     }
 
+    /**
+     * RestResult构造器
+     * @param <T> 响应类
+     * @author 一块小饼干
+     * @since 1.0.0
+     */
     private static class RestResultBuilder<T> {
 
         private int code;
