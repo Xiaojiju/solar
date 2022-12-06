@@ -24,8 +24,13 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
- * 节点树构建
- * 不是线程安全的
+ * <p>节点树构建
+ * 不是线程安全的</p>
+ * <pre>
+ *     public class Message implements Linkable {
+ *
+ *     }
+ * </pre>
  * @param <T> 指定需要构建树的类
  * @since 1.0.0
  */
