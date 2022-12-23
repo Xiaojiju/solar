@@ -1,16 +1,51 @@
-plugins {
-    id 'java'
-    id 'org.springframework.boot' version '2.7.5'
-    id("io.spring.dependency-management") version "1.0.15.RELEASE"
+
+
+buildscript {
+    repositories {
+        maven {
+            url 'https://maven.aliyun.com/nexus/content/groups/public'
+        }
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.7.4"
+    }
 }
 
-group 'com.dire'
-version '1.0.0-development'
-sourceCompatibility = '11'
-targetCompatibility = '11'
+allprojects {
 
-repositories {
-    mavenCentral()
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.springframework.boot'
+
+    group 'com.dire'
+    version '1.0.0-development'
+    sourceCompatibility = '11'
+    targetCompatibility = '11'
+
+    repositories {
+        mavenLocal()
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
+        mavenCentral()
+    }
+
+    //指定编码格式
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+}
+
+subprojects {
+
+    apply plugin: "java"
+    apply plugin: 'java-library'
+    apply plugin: "idea"
+
+    dependencies {
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+    }
 }
 
 configurations {

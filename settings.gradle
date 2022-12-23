@@ -1,4 +1,13 @@
+dependencyResolutionManagement{
+    versionCatalogs{
+        libs{
+            plugin('spring-dependency','io.spring.dependency-management').version('1.0.15.RELEASE')
+        }
+    }
+}
+
 rootProject.name = 'solar'
 include 'solar-core'
 include 'solar-guard'
+include 'examples'
 

@@ -15,13 +15,23 @@
  */
 package com.dire.core;
 
-/**
- * 公共常量
- * @author 一块小饼干
- * @since 1.0.0
- */
-public final class CommonConstants {
+import com.dire.core.context.request.DecodeRequestBodyAdvice;
+import com.dire.core.convert.LocalDateConverter;
+import com.dire.core.convert.LocalDateTimeConverter;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
-    public static final String Y_M_D_H_M_S = "yyyy-MM-dd HH:mm:ss";
-    public static final String Y_M_D = "yyyy-MM-dd";
+
+/**
+ * 自动注入Configuration
+ * @author 一块小饼干
+ */
+@Import(value = {
+        LocalDateTimeConverter.class,
+        LocalDateConverter.class,
+        GlobalExceptionHandler.class,
+        DecodeRequestBodyAdvice.class
+})
+@Configuration
+public class CoreAutoConfiguration {
 }

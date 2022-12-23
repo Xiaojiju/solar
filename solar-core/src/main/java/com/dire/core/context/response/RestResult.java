@@ -15,6 +15,9 @@
  */
 package com.dire.core.context.response;
 
+import com.dire.core.CodeExpression;
+import com.dire.core.ResultCode;
+
 import java.io.Serializable;
 
 /**
@@ -43,6 +46,14 @@ public class RestResult<T> implements Serializable {
     public RestResult() {
     }
 
+    public RestResult(CodeExpression codeExpression) {
+        this(null, codeExpression);
+    }
+
+    public RestResult(T data, CodeExpression codeExpression) {
+        this(codeExpression.getCode(), codeExpression.getMessage(), data);
+    }
+
     public RestResult(int code, String message) {
         this(code, message, null);
     }
@@ -58,11 +69,19 @@ public class RestResult<T> implements Serializable {
     }
 
     public static <T> RestResult<T> success(T data) {
-        return new RestResultBuilder<T>().setData(data).build();
+        return new RestResult<>(data, ResultCode.OK);
+    }
+
+    public static <T> RestResult<T> error(String message) {
+        return new RestResult<>(ResultCode.ERROR.getCode(), message);
     }
 
     public static <T> RestResult<T> error(int code, String message) {
         return new RestResult<>(code, message);
+    }
+
+    public static <T> RestResult<T> complete(CodeExpression codeExpression) {
+        return new RestResult<>(codeExpression.getCode(), codeExpression.getMessage());
     }
 
     public int getCode() {

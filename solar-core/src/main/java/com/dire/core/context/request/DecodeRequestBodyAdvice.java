@@ -18,25 +18,46 @@ package com.dire.core.context.request;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 
 /**
  * 对接request的json信息进行解密，默认不进行加密
  * @author 一块小饼干
  */
-public class DecodeRequestBodyAdvance extends RequestBodyAdviceAdapter {
+@RestControllerAdvice
+public class DecodeRequestBodyAdvice extends RequestBodyAdviceAdapter {
+
+    public DecodeRequestBodyAdvice() {
+        super();
+    }
 
     // todo 过滤链
 
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
+        System.out.println("support1");
         return false;
     }
 
     @Override
+    public HttpInputMessage beforeBodyRead(HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
+        System.out.println("beforeBodyRead");
+        return super.beforeBodyRead(inputMessage, parameter, targetType, converterType);
+    }
+
+    @Override
+    public Object handleEmptyBody(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
+        System.out.println("handleEmptyBody");
+        return super.handleEmptyBody(body, inputMessage, parameter, targetType, converterType);
+    }
+
+    @Override
     public Object afterBodyRead(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
+        System.out.println("afterBodyRead");
         return super.afterBodyRead(body, inputMessage, parameter, targetType, converterType);
         // todo 首先要排除文件类型
         // todo 增加过滤链，指定解析

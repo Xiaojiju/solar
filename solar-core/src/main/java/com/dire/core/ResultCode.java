@@ -13,33 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dire.core.context.exceptions;
-
-import com.dire.core.CodeExpression;
+package com.dire.core;
 
 /**
- * 业务异常
+ * 统一业务代码
  * @author 一块小饼干
  */
-public class ServiceException extends RuntimeException {
+public enum ResultCode implements CodeExpression {
 
-    private int code;
+    OK(0, "OK"),
+    ERROR(5000, "Server Error"),
+    PAYLOAD_TOO_LARGE(5001,  "Request payload is too large"),
+    INVALID_PARAMETERS(5002, "Request invalid parameters"),
+    FORBIDDEN(5003, "forbidden"),
+    UNAUTHORIZED(5004, "unauthorized");
 
-    public ServiceException(CodeExpression codeExpression) {
-        super(codeExpression.getMessage());
-        this.code = codeExpression.getCode();
-    }
+    private final int code;
+    private final String message;
 
-    public ServiceException(String message, int code) {
-        super(message);
+    ResultCode(int code, String message) {
         this.code = code;
+        this.message = message;
     }
 
+    @Override
     public int getCode() {
-        return code;
+        return this.code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    @Override
+    public String getMessage() {
+        return this.message;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

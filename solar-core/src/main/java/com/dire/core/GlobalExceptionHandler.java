@@ -1,6 +1,22 @@
+/*
+ * Copyright 2022 一块小饼干(莫杨)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.dire.core;
 
 import com.dire.core.context.exceptions.ServiceException;
+import com.dire.core.context.response.RestResult;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -11,47 +27,51 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
+/**
+ * 业务异常捕获
+ * @author 一块小饼干
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-//    @ExceptionHandler({Exception.class})
-//    public HttpResult exception(Exception e) {
-//        e.printStackTrace();
-//        return HttpResult.error(e.getMessage());
-//    }
-//
-//    @ExceptionHandler({ServiceException.class})
-//    public HttpResult serviceException(ServiceException e) {
-//        return HttpResult.error(e.getMessage(), e.getCode());
-//    }
-//
-//    @ExceptionHandler({BindException.class })
-//    public HttpResult bindException(BindException e) {
-//        List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
-//        return parseError(fieldErrors);
-//    }
-//
-//    @ExceptionHandler({MethodArgumentNotValidException.class })
-//    public HttpResult paramsException(MethodArgumentNotValidException e) {
-//        List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
-//        return parseError(fieldErrors);
-//    }
-//
-//    @ExceptionHandler({HttpMessageNotReadableException.class })
-//    public HttpResult httpMessageNotReadableException(HttpMessageNotReadableException e) {
-//        return HttpResult.error(e.getMessage());
-//    }
-//
-//    @ExceptionHandler({ MissingServletRequestParameterException.class })
-//    public HttpResult paramsMissingException(MissingServletRequestParameterException missingException) {
-//        return HttpResult.error("参数 " + missingException.getParameterName() + " 不能为空");
-//    }
-//
-//    private HttpResult parseError(List<FieldError> fieldErrors) {
-//        StringBuilder msg = new StringBuilder();
-//        for (FieldError error : fieldErrors) {
-//            msg.append(error.getDefaultMessage()).append(";");
-//        }
-//        return HttpResult.error(msg.toString());
-//    }
+    @ExceptionHandler({Exception.class})
+    public RestResult<Void> exception(Exception e) {
+        e.printStackTrace();
+        return RestResult.complete(ResultCode.ERROR);
+    }
+
+    @ExceptionHandler({ServiceException.class})
+    public RestResult<Void> serviceException(ServiceException e) {
+        return RestResult.error(e.getCode(), e.getMessage());
+    }
+
+    @ExceptionHandler({BindException.class })
+    public RestResult<Void> bindException(BindException e) {
+        List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
+        return parseError(fieldErrors);
+    }
+
+    @ExceptionHandler({MethodArgumentNotValidException.class })
+    public RestResult<Void> paramsException(MethodArgumentNotValidException e) {
+        List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
+        return parseError(fieldErrors);
+    }
+
+    @ExceptionHandler({HttpMessageNotReadableException.class })
+    public RestResult<Void> httpMessageNotReadableException(HttpMessageNotReadableException e) {
+        return RestResult.complete(ResultCode.ERROR);
+    }
+
+    @ExceptionHandler({ MissingServletRequestParameterException.class })
+    public RestResult<Void> paramsMissingException(MissingServletRequestParameterException missingException) {
+        return RestResult.error("parameter " + missingException.getParameterName() + " could not be null");
+    }
+
+    private RestResult<Void> parseError(List<FieldError> fieldErrors) {
+        StringBuilder msg = new StringBuilder();
+        for (FieldError error : fieldErrors) {
+            msg.append(error.getDefaultMessage()).append(";");
+        }
+        return RestResult.error(msg.toString());
+    }
 }
