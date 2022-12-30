@@ -1,0 +1,19 @@
+package com.dire.guard.service;
+
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class NullGrantAuthorityServiceImpl implements GrantAuthorityService {
+
+    @Override
+    public List<GrantedAuthority> loadPermissions(String uniqueId) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<GrantedAuthority> loadRoles(String uniqueId) {
+        return new ArrayList<>();
+    }
+}

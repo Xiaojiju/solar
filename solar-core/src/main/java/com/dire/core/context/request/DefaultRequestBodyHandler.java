@@ -15,11 +15,29 @@
  */
 package com.dire.core.context.request;
 
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
 /**
- * 解密拦截器
- * @author 一块小饼干
- */
-public interface DecodeRequestBodyFilter {
+  * 默认RequestBody处理类
+  * @author 一块小饼干
+  * @since 1.0.0
+  */
+public class DefaultRequestBodyHandler implements RequestBodyHandler {
 
+    @Override
+    public String Handle(String body) {
+        return body;
+    }
 
+    @Override
+    public InputStream handle(InputStream inputStream) {
+        return handle(inputStream, StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public InputStream handle(InputStream inputStream, Charset charset) {
+        return inputStream;
+    }
 }

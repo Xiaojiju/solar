@@ -13,30 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dire.core.context.request;
-/**
- * 请求解密定义
- * @author 一块小饼干
- */
-public interface DecodeRequestBodyHandler {
+package com.dire.core.context.response;
 
-    /**
-     * 获取算法类型
-     * @return 算法类型，默认转为大写
-     */
-    String getAlgorithm();
+public interface ResponseBodyHandler {
 
-    /**
-     * 解密为字符串
-     * @param source 加密字符串
-     * @return 解字符串
-     */
-    String getFormat(String source);
+    Object handle(Object body);
 
-    /**
-     * 解密为字节数组
-     * @param source 加密字符串
-     * @return 解密字节数组
-     */
-    byte[] decode(String source);
+
+    // 新增返回Handler Chain
+    // 全局进行注册到Chain，如果注解指定，则只执行全局是否执行的handler和注解指定的
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dire.guard.service.UserServiceMapper">
+
+    <select id="selectUserByReferenceKey" resultType="com.dire.guard.UserTemplate">
+        SELECT
+            `u`.`U_ID` `uniqueId`,
+            `ur`.`REFERENCE_KEY` `currentReferenceKey`,
+            `s`.`SECRET_KEY` `secretKey`,
+            IF
+            ( `ur`.`EXPIRED_TIME` < now(), 1, 0 ) `methodExpired`,
+            IF
+            ( `s`.`SECRET_EXPIRED_TIME` < now(), 1, 0 ) `credentialsExpired`,
+            `u`.`ALIVE` `enabled`,
+            `ur`.`LOGIN_ACCESS` `currentMethodLocked`,
+            `ur`.`IDENTIFIER` `currentMethod`
+        FROM
+            `solar_user_reference` `ur`
+        LEFT JOIN `solar_secret` `s` ON `ur`.`S_ID` = `s`.`S_ID`
+        LEFT JOIN `solar_user` `u` ON `ur`.`U_ID` = `u`.`U_ID`
+        WHERE
+            `ur`.`REFERENCE_KEY` = #{ referenceKey }
+    </select>
+</mapper>

@@ -17,7 +17,6 @@ package com.dire.util;
 
 import java.io.Serializable;
 import java.util.List;
-
 /**
  * 定义可被转为树形结构的标准
  * @param <T> 指定转为树形的类类型

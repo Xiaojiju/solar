@@ -17,6 +17,8 @@ package com.dire.core;
 
 import com.dire.core.context.exceptions.ServiceException;
 import com.dire.core.context.response.RestResult;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -59,7 +61,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({HttpMessageNotReadableException.class })
     public RestResult<Void> httpMessageNotReadableException(HttpMessageNotReadableException e) {
-        return RestResult.complete(ResultCode.ERROR);
+        HttpInputMessage httpInputMessage = e.getHttpInputMessage();
+        HttpHeaders headers = httpInputMessage.getHeaders();
+        List<String> contentTypes = headers.get("Content-Type");
+        return RestResult.error("request body missing and request body must accord with Content-Type:" + contentTypes);
     }
 
     @ExceptionHandler({ MissingServletRequestParameterException.class })

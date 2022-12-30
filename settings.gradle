@@ -10,4 +10,8 @@ rootProject.name = 'solar'
 include 'solar-core'
 include 'solar-guard'
 include 'examples'
+include 'solar-tools'
+include 'components'
+include 'components:datasource'
+findProject(':components:datasource')?.name = 'datasource'
 

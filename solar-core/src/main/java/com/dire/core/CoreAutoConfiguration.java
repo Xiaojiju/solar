@@ -15,9 +15,14 @@
  */
 package com.dire.core;
 
-import com.dire.core.context.request.DecodeRequestBodyAdvice;
+import com.dire.core.context.request.DefaultRequestBodyHandler;
+import com.dire.core.context.request.RequestBodyHandler;
+import com.dire.core.context.response.DefaultResponseBodyAdvice;
+import com.dire.core.context.response.ResponseBodyHandler;
 import com.dire.core.convert.LocalDateConverter;
 import com.dire.core.convert.LocalDateTimeConverter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
@@ -29,9 +34,20 @@ import org.springframework.context.annotation.Import;
 @Import(value = {
         LocalDateTimeConverter.class,
         LocalDateConverter.class,
-        GlobalExceptionHandler.class,
-        DecodeRequestBodyAdvice.class
+        GlobalExceptionHandler.class
 })
 @Configuration
 public class CoreAutoConfiguration {
+
+    @Bean
+    @ConditionalOnMissingBean
+    public RequestBodyHandler requestBodyHandler() {
+        return new DefaultRequestBodyHandler();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ResponseBodyHandler responseBodyHandler() {
+        return new DefaultResponseBodyAdvice();
+    }
 }

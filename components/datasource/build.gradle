@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group 'com.dire'
+version '1.0.0-development'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    api 'com.baomidou:mybatis-plus-boot-starter:3.5.1'
+    api 'mysql:mysql-connector-java'
+    implementation project(':solar-core')
+}
+
+test {
+    useJUnitPlatform()
+}

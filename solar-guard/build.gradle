@@ -10,5 +10,6 @@ dependencies {
     implementation project(':solar-core')
     implementation('org.springframework.boot:spring-boot-starter-security')
     implementation('org.springframework.boot:spring-boot-starter-data-redis')
-    implementation('com.auth0:java-jwt:4.0.0')
+    implementation project(':solar-tools')
+    implementation project(':components:datasource')
 }

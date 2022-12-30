@@ -13,30 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dire.core.context.request;
+package com.dire.datasource;
 
-import java.nio.charset.StandardCharsets;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
- * 默认不进行解密
  * @author 一块小饼干
+ * @since 1.0.0
+ * @param <T> 分页对象泛型
  */
-public class DefaultDecodeRequestBodyHandler implements DecodeRequestBodyHandler{
+public interface PageHelper<T> {
 
-    private static final String NOT_DECODE = "NOT_DECODE";
-
-    @Override
-    public String getAlgorithm() {
-        return NOT_DECODE;
-    }
-
-    @Override
-    public String getFormat(String source) {
-        return source;
-    }
-
-    @Override
-    public byte[] decode(String source) {
-        return source.getBytes(StandardCharsets.UTF_8);
-    }
+    Page<T> toPage();
 }

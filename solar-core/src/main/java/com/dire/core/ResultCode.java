@@ -22,11 +22,11 @@ package com.dire.core;
 public enum ResultCode implements CodeExpression {
 
     OK(0, "OK"),
-    ERROR(5000, "Server Error"),
-    PAYLOAD_TOO_LARGE(5001,  "Request payload is too large"),
-    INVALID_PARAMETERS(5002, "Request invalid parameters"),
-    FORBIDDEN(5003, "forbidden"),
-    UNAUTHORIZED(5004, "unauthorized");
+    ERROR(50000, "Server Error"),
+    PAYLOAD_TOO_LARGE(50001,  "Request payload is too large"),
+    INVALID_PARAMETERS(50002, "Request invalid parameters"),
+    FORBIDDEN(50003, "forbidden"),
+    UNAUTHORIZED(50004, "unauthorized");
 
     private final int code;
     private final String message;
