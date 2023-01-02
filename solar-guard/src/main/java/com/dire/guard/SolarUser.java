@@ -31,19 +31,19 @@ import java.io.Serializable;
 @TableName("solar_user")
 public class SolarUser extends BaseModel<SolarUser> implements Serializable {
 
-    @TableId(value = "U_ID", type = IdType.ASSIGN_ID)
+    @TableId(value = "u_id", type = IdType.ASSIGN_ID)
     private String id;
 
-    @TableField("NICKNAME")
+    @TableField("nickname")
     private String nickname;
 
-    @TableField("AVATAR")
+    @TableField("avatar")
     private String avatar;
 
-    @TableField("GENDER")
+    @TableField("gender")
     private Integer gender;
 
-    @TableField("ALIVE")
+    @TableField("alive")
     private Integer alive;
 
     public String getId() {

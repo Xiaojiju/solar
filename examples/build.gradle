@@ -12,8 +12,10 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-    implementation project(':solar-core')
     implementation project(":solar-guard")
+    implementation project(':solar-actuator')
+    implementation project(':solar-tools')
+    implementation project(':solar-core')
 }
 
 test {

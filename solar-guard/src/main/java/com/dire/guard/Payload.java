@@ -22,29 +22,18 @@ import java.io.Serializable;
  * @author 一块小饼干
  * @since 1.0.0
  */
-public class Payload implements Serializable, AuthenticationMethod {
+public class Payload implements Serializable {
 
     private String principal;
     private String credentials;
-    private String authenticationMethod;
 
     public Payload() {
         this(null, null);
     }
 
     public Payload(String principal, String credentials) {
-        this(principal, credentials, null);
-    }
-
-    public Payload(String principal, String credentials, String authenticationMethod) {
         this.principal = principal;
         this.credentials = credentials;
-        this.authenticationMethod = authenticationMethod;
-    }
-
-    @Override
-    public String getMethod() {
-        return this.authenticationMethod;
     }
 
     public String getPrincipal() {
@@ -63,11 +52,4 @@ public class Payload implements Serializable, AuthenticationMethod {
         this.credentials = credentials;
     }
 
-    public String getAuthenticationMethod() {
-        return authenticationMethod;
-    }
-
-    public void setAuthenticationMethod(String authenticationMethod) {
-        this.authenticationMethod = authenticationMethod;
-    }
 }

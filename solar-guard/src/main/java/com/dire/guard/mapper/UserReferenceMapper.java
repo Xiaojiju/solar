@@ -1,4 +1,4 @@
-package com.dire.guard.service;
+package com.dire.guard.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dire.guard.SolarUserReference;

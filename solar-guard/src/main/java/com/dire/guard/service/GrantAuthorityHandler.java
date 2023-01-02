@@ -4,8 +4,8 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
 
-public interface GrantAuthorityService {
+public interface GrantAuthorityHandler {
 
-    List<GrantedAuthority> loadPermissions(String uniqueId);
+    List<GrantedAuthority> handle(List<GrantedAuthority> authorities);
 
 }

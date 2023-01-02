@@ -3,6 +3,6 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.springframework.boot'
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    api 'org.springframework.boot:spring-boot-starter-validation'
+    api 'org.springframework.boot:spring-boot-starter-web'
 }

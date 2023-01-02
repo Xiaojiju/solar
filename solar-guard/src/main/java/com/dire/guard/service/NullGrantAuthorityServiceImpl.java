@@ -12,8 +12,4 @@ public class NullGrantAuthorityServiceImpl implements GrantAuthorityService {
         return new ArrayList<>();
     }
 
-    @Override
-    public List<GrantedAuthority> loadRoles(String uniqueId) {
-        return new ArrayList<>();
-    }
 }

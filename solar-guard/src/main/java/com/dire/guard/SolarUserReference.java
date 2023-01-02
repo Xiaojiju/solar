@@ -15,10 +15,12 @@
  */
 package com.dire.guard;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.dire.core.Judge;
 import com.dire.datasource.BaseModel;
+import com.dire.tools.enums.Judge;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -31,18 +33,40 @@ import java.time.LocalDateTime;
 @TableName("solar_user_reference")
 public class SolarUserReference extends BaseModel<SolarUserReference> implements Serializable {
 
-    @TableId
+    @TableId(value = "r_id", type = IdType.ASSIGN_ID)
     private String id;
+
+    @TableField("identifier")
     private String identifier;
+
+    @TableField("reference_key")
     private String referenceKey;
+
+    @TableField("validated")
     private Judge validated;
+
+    @TableField("after_reference_key")
     private String afterReferenceKey;
+
+    @TableField("expired_time")
     private LocalDateTime expiredTime;
+
+    @TableField("validated_time")
     private LocalDateTime validatedTime;
+
+    @TableField("login_access")
     private Judge loginAccess;
+
+    @TableField("third_part")
     private Judge thirdPart;
+
+    @TableField("alive")
     private Integer alive;
+
+    @TableField("s_id")
     private String secretId;
+
+    @TableField("u_id")
     private String uId;
 
     public String getId() {

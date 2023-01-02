@@ -15,7 +15,7 @@
  */
 package com.dire.core.convert;
 
-import com.dire.core.CommonConstants;
+import com.dire.util.TimeConstants;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -34,10 +34,10 @@ public class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
     @Override
     public LocalDateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         try {
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(CommonConstants.Y_M_D_H_M_S);
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(TimeConstants.Y_M_D_H_M_S);
             return LocalDateTime.parse(jsonParser.getText(), dateTimeFormatter);
         } catch (Exception e) {
-            throw new RuntimeException("property: " + jsonParser.getCurrentName() + "," + jsonParser.getText() + "required " + CommonConstants.Y_M_D_H_M_S);
+            throw new RuntimeException("property: " + jsonParser.getCurrentName() + "," + jsonParser.getText() + "required " + TimeConstants.Y_M_D_H_M_S);
         }
     }
 }

@@ -15,7 +15,7 @@
  */
 package com.dire.core.convert;
 
-import com.dire.core.CommonConstants;
+import com.dire.util.TimeConstants;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -36,7 +36,7 @@ public class LocalDateConverter implements Converter<String, LocalDate> {
         if (!StringUtils.hasText(source)) {
             return null;
         }
-        return LocalDate.parse(source, DateTimeFormatter.ofPattern(CommonConstants.Y_M_D));
+        return LocalDate.parse(source, DateTimeFormatter.ofPattern(TimeConstants.Y_M_D));
     }
 
 }

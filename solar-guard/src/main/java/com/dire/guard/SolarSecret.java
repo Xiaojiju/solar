@@ -29,13 +29,13 @@ import com.dire.datasource.BaseModel;
 @TableName("solar_secret")
 public class SolarSecret extends BaseModel<SolarSecret> {
 
-    @TableId(value = "S_ID", type = IdType.ASSIGN_ID)
+    @TableId(value = "s_id", type = IdType.ASSIGN_ID)
     private String id;
 
-    @TableField("SECRET_KEY")
+    @TableField("secret_key")
     private String secret;
 
-    @TableField("SECRET_SALT")
+    @TableField("secret_salt")
     private String salt;
 
     public String getId() {

@@ -13,15 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dire.core;
+package com.dire.tools.enums;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
- * 公共常量
  * @author 一块小饼干
  * @since 1.0.0
  */
-public final class CommonConstants {
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+public interface BaseEnum {
 
-    public static final String Y_M_D_H_M_S = "yyyy-MM-dd HH:mm:ss";
-    public static final String Y_M_D = "yyyy-MM-dd";
+    int getCode();
+
+    String getDesc();
+
 }

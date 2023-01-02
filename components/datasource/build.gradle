@@ -14,7 +14,8 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     api 'com.baomidou:mybatis-plus-boot-starter:3.5.1'
     api 'mysql:mysql-connector-java'
-    implementation project(':solar-core')
+    api project(':solar-tools')
+    api project(':solar-core')
 }
 
 test {

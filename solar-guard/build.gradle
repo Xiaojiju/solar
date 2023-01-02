@@ -6,10 +6,14 @@ repositories {
     mavenCentral()
 }
 
+tasks.named('compileJava') {
+    inputs.files(tasks.named('processResources'))
+}
+
 dependencies {
-    implementation project(':solar-core')
-    implementation('org.springframework.boot:spring-boot-starter-security')
-    implementation('org.springframework.boot:spring-boot-starter-data-redis')
+    api('org.springframework.boot:spring-boot-starter-security')
+//    api('org.springframework.boot:spring-boot-starter-data-redis')
     implementation project(':solar-tools')
-    implementation project(':components:datasource')
+    api(project(':solar-core'))
+    api(project(':components:datasource'))
 }

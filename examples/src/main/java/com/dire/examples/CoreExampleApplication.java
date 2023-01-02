@@ -3,20 +3,26 @@ package com.dire.examples;
 import com.dire.core.context.response.RestResult;
 import com.dire.util.BatchWrapper;
 import com.dire.util.Target;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.ManagedBean;
 import java.util.List;
 
-@SpringBootApplication(scanBasePackages = "com.dire")
-@ManagedBean("com.dire")
+@SpringBootApplication
+@EnableWebSecurity(debug = true)
+@MapperScan("com.dire.guard.mapper")
 @RestController
 public class CoreExampleApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CoreExampleApplication.class, args);
+        ApplicationContext applicationContext = SpringApplication.run(CoreExampleApplication.class, args);
+        SecurityFilterChain securityFilterChain = applicationContext.getBean(SecurityFilterChain.class);
+        System.out.println(securityFilterChain.getFilters());
     }
 
     @GetMapping("")

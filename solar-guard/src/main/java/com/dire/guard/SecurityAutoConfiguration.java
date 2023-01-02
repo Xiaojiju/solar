@@ -15,23 +15,23 @@
  */
 package com.dire.guard;
 
-import org.springframework.context.annotation.Bean;
+import com.dire.guard.config.WebAuthenticationConfig;
+import com.dire.guard.config.WebSecurityConfig;
+import com.dire.guard.config.WebSecurityProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.context.annotation.Import;
 
 /**
  * 密码加密配置
  * @author 一块小饼干
  * @since 1.0.0
  */
+@Import({
+        WebSecurityConfig.class,
+        WebAuthenticationConfig.class,
+        WebSecurityProperties.class
+})
 @Configuration
-@EnableWebSecurity(debug = true)
-public class EncoderConfiguration {
+public class SecurityAutoConfiguration {
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//    }
 }

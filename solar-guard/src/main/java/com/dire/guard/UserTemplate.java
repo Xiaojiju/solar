@@ -4,71 +4,73 @@ import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.function.Function;
 
 
-public class UserTemplate implements AccountDetails, CredentialsContainer, Permission {
+public class UserTemplate implements MultiAuthenticationUserDetails, CredentialsContainer {
 
-    private final String uniqueId;
-    private final String currentReferenceKey;
-    private String secretKey;
+    private final String username;
+    private String password;
     private final Set<GrantedAuthority> authorities;
-    private final boolean methodExpired;
-    private final boolean credentialsExpired;
+    private final boolean methodNonExpired;
+    private final boolean credentialsNonExpired;
     private final boolean enabled;
-    private final boolean currentMethodLocked;
+    private final boolean currentMethodNonLocked;
     private final String currentMethod;
 
-    public UserTemplate(String uniqueId, String currentReferenceKey, String secretKey, Collection<? extends GrantedAuthority> authorities) {
-        this(uniqueId, currentReferenceKey, secretKey, authorities,false, false,
-                true, false, "default");
+    public UserTemplate(String username, String password) {
+        this(username, password, new HashSet<>());
     }
 
-    public UserTemplate(String uniqueId, String currentReferenceKey, String secretKey,
-                        Collection<? extends GrantedAuthority> authorities, boolean methodExpired, boolean credentialsExpired,
-                        boolean enabled, boolean currentMethodLocked,
-                        String currentMethod) {
-        this.uniqueId = uniqueId;
-        this.currentReferenceKey = currentReferenceKey;
-        this.secretKey = secretKey;
+    public UserTemplate(String username, String password, Set<GrantedAuthority> authorities) {
+        this(username, password, authorities, true, true,
+                true, true, "");
+    }
+
+    public UserTemplate(String username, String password, Set<GrantedAuthority> authorities, boolean methodNonExpired,
+                        boolean credentialsNonExpired, boolean enabled, boolean currentMethodNonLocked, String currentMethod) {
+        this.username = username;
+        this.password = password;
         this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
-        this.methodExpired = methodExpired;
-        this.credentialsExpired = credentialsExpired;
+        this.methodNonExpired = methodNonExpired;
+        this.credentialsNonExpired = credentialsNonExpired;
         this.enabled = enabled;
-        this.currentMethodLocked = currentMethodLocked;
+        this.currentMethodNonLocked = currentMethodNonLocked;
         this.currentMethod = currentMethod;
     }
 
     @Override
-    public String getUniqueId() {
-        return this.uniqueId;
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.authorities;
     }
 
     @Override
-    public String getCurrentReferenceKey() {
-        return this.currentReferenceKey;
+    public String getPassword() {
+        return this.password;
     }
 
     @Override
-    public String getSecretKey() {
-        return this.secretKey;
+    public String getUsername() {
+        return this.username;
     }
 
     @Override
-    public String getCurrentMethod() {
-        return this.currentMethod;
+    public boolean isAccountNonExpired() {
+        return this.enabled;
     }
 
     @Override
-    public boolean isMethodExpired() {
-        return this.methodExpired;
+    public boolean isAccountNonLocked() {
+        return this.enabled;
     }
 
     @Override
-    public boolean isCredentialsExpired() {
-        return this.credentialsExpired;
+    public boolean isCredentialsNonExpired() {
+        return this.credentialsNonExpired;
     }
 
     @Override
@@ -77,39 +79,38 @@ public class UserTemplate implements AccountDetails, CredentialsContainer, Permi
     }
 
     @Override
-    public boolean isCurrentMethodLocked() {
-        return this.currentMethodLocked;
+    public String getCurrentMethod() {
+        return this.currentMethod;
     }
 
     @Override
-    public Set<GrantedAuthority> getAuthorities() {
-        return this.authorities;
+    public boolean isCurrentMethodExpired() {
+        return this.credentialsNonExpired;
+    }
+
+    @Override
+    public boolean isCurrentMethodNonLocked() {
+        return this.currentMethodNonLocked;
     }
 
     @Override
     public void eraseCredentials() {
-        this.secretKey = null;
+        this.password = null;
     }
 
     /**
      * 复制的spring security 的{@link org.springframework.security.core.userdetails.User}中的sortAuthorities方法
      */
     private static SortedSet<GrantedAuthority> sortAuthorities(Collection<? extends GrantedAuthority> authorities) {
-        Assert.notNull(authorities, "Cannot pass a null GrantedAuthority collection");
+        if (authorities == null) {
+            authorities = new ArrayList<>();
+        }
         SortedSet<GrantedAuthority> sortedAuthorities = new TreeSet<>(new UserTemplate.AuthorityComparator());
         for (GrantedAuthority grantedAuthority : authorities) {
             Assert.notNull(grantedAuthority, "GrantedAuthority list cannot contain any null elements");
             sortedAuthorities.add(grantedAuthority);
         }
         return sortedAuthorities;
-    }
-
-    public static UserTemplateBuilder withReferenceKey(String uniqueId) {
-        return null;
-    }
-
-    public static UserTemplateBuilder withReferenceKey(String referenceKey, String currentMethod) {
-        return null;
     }
 
     public static UserTemplateBuilder builder() {
@@ -119,26 +120,26 @@ public class UserTemplate implements AccountDetails, CredentialsContainer, Permi
     @Override
     public boolean equals(Object o) {
         if (o instanceof UserTemplate) {
-            return this.uniqueId.equals(((UserTemplate) o).getUniqueId());
+            return this.username.equals(((UserTemplate) o).getUsername());
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return this.uniqueId.hashCode();
+        return this.username.hashCode();
     }
 
     @Override
     public String toString() {
         return "UserTemplate{" +
-                "uniqueId='" + uniqueId + '\'' +
-                ", currentReferenceKey='" + currentReferenceKey + '\'' +
-                ", secretKey='[PROTECTED]'" +
-                ", methodExpired=" + methodExpired +
-                ", credentialsExpired=" + credentialsExpired +
+                "username='" + username + '\'' +
+                ", password='[PROTECT]" + '\'' +
+                ", authorities=" + authorities +
+                ", methodNonExpired=" + methodNonExpired +
+                ", credentialsNonExpired=" + credentialsNonExpired +
                 ", enabled=" + enabled +
-                ", currentMethodLocked=" + currentMethodLocked +
+                ", currentMethodNonLocked=" + currentMethodNonLocked +
                 ", currentMethod='" + currentMethod + '\'' +
                 '}';
     }
@@ -163,35 +164,27 @@ public class UserTemplate implements AccountDetails, CredentialsContainer, Permi
             }
             return g1.getAuthority().compareTo(g2.getAuthority());
         }
-
     }
 
     public static class UserTemplateBuilder {
 
-        private String uniqueId;
-        private String currentReferenceKey;
-        private String secretKey;
-        private List<GrantedAuthority> authorities;
+        private String username;
+        private String password;
+        private Set<GrantedAuthority> authorities;
         private boolean methodExpired;
         private boolean credentialsExpired;
-        private boolean enabled;
+        private boolean disabled;
         private boolean currentMethodLocked;
         private String currentMethod;
+        private Function<String, String> passwordEncoder = (password) -> password;
 
-        private UserTemplateBuilder() {}
-
-        public UserTemplateBuilder uniqueId(String uniqueId) {
-            this.uniqueId = uniqueId;
+        public UserTemplateBuilder username(String username) {
+            this.username = username;
             return this;
         }
 
-        public UserTemplateBuilder currentReferenceKey(String currentReferenceKey) {
-            this.currentReferenceKey = currentReferenceKey;
-            return this;
-        }
-
-        public UserTemplateBuilder secretKey(String secretKey) {
-            this.secretKey = secretKey;
+        public UserTemplateBuilder password(String password) {
+            this.password = password;
             return this;
         }
 
@@ -205,8 +198,8 @@ public class UserTemplate implements AccountDetails, CredentialsContainer, Permi
             return this;
         }
 
-        public UserTemplateBuilder enabled(boolean enabled) {
-            this.enabled = enabled;
+        public UserTemplateBuilder disabled(boolean disabled) {
+            this.disabled = disabled;
             return this;
         }
 
@@ -220,21 +213,32 @@ public class UserTemplate implements AccountDetails, CredentialsContainer, Permi
             return this;
         }
 
-        public UserTemplateBuilder authorities(String...authorities) {
-            return this;
-        }
-
-        public UserTemplateBuilder authorities(GrantedAuthority...authorities) {
-            return this;
+        public UserTemplateBuilder authorities(GrantedAuthority...grantedAuthorities) {
+            return authorities(Arrays.asList(grantedAuthorities));
         }
 
         public UserTemplateBuilder authorities(Collection<? extends GrantedAuthority> authorities) {
+            Assert.notNull(authorities, "");
+            if (CollectionUtils.isEmpty(this.authorities)) {
+                this.authorities = new HashSet<>();
+            }
+            this.authorities.addAll(authorities);
+            return this;
+        }
+
+        public UserTemplateBuilder passwordEncoder(Function<String, String> encoder) {
+            Assert.notNull(encoder, "encoder cannot be null");
+            this.passwordEncoder = encoder;
             return this;
         }
 
         public UserTemplate build() {
-            return new UserTemplate(this.uniqueId, this.currentReferenceKey, this.secretKey, this.authorities, this.methodExpired,
-                    this.credentialsExpired, this.enabled, this.currentMethodLocked, this.currentMethod);
+            if (this.authorities == null) {
+                this.authorities = new HashSet<>();
+            }
+            String encodePassword = passwordEncoder.apply(this.password);
+            return new UserTemplate(this.username, encodePassword, this.authorities, !this.methodExpired,
+                    !this.credentialsExpired, !this.disabled, !this.currentMethodLocked, this.currentMethod);
         }
     }
 }

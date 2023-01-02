@@ -18,7 +18,6 @@ package com.dire.core.context.response;
 import com.dire.core.CodeExpression;
 import com.dire.core.ResultCode;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.io.Serializable;
 

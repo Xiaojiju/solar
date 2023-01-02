@@ -19,7 +19,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.dire.core.CommonConstants;
+import com.dire.util.TimeConstants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,25 +32,25 @@ import java.time.LocalDateTime;
  **/
 public class BaseModel<T> extends Model<BaseModel<T>> implements Serializable {
 
-    @JsonFormat(pattern = CommonConstants.Y_M_D_H_M_S)
-    @TableField(value = "CREATE_TIME", fill = FieldFill.INSERT)
+    @JsonFormat(pattern = TimeConstants.Y_M_D_H_M_S)
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    @TableField(value = "CREATE_BY", fill = FieldFill.INSERT)
+    @TableField(value = "create_by", fill = FieldFill.INSERT)
     private String createBy;
 
-    @JsonFormat(pattern = CommonConstants.Y_M_D_H_M_S)
-    @TableField(value = "UPDATE_TIME", fill = FieldFill.UPDATE)
+    @JsonFormat(pattern = TimeConstants.Y_M_D_H_M_S)
+    @TableField(value = "update_time", fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
 
-    @TableField(value = "UPDATE_BY", fill = FieldFill.UPDATE)
+    @TableField(value = "update_by", fill = FieldFill.UPDATE)
     private String updateBy;
 
-    @TableField("CURRENT_VERSION")
+    @TableField("current_version")
     @JsonIgnore
     private LocalDateTime version;
 
-    @TableLogic("DELETED")
+    @TableLogic("deleted")
     @JsonIgnore
     private Integer deleted;
 
