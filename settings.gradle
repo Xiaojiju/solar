@@ -13,6 +13,6 @@ include 'examples'
 include 'solar-tools'
 include 'components'
 include 'components:datasource'
-findProject(':components:datasource')?.name = 'datasource'
 include 'solar-actuator'
+include 'components:redis-data'
 

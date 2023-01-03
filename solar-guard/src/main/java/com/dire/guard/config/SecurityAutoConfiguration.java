@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dire.guard;
+package com.dire.guard.config;
 
-import com.dire.guard.config.WebAuthenticationConfig;
-import com.dire.guard.config.WebSecurityConfig;
-import com.dire.guard.config.WebSecurityProperties;
+import com.dire.guard.cache.RedisUserCache;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
@@ -29,7 +27,8 @@ import org.springframework.context.annotation.Import;
 @Import({
         WebSecurityConfig.class,
         WebAuthenticationConfig.class,
-        WebSecurityProperties.class
+        WebSecurityProperties.class,
+        RedisUserCache.class
 })
 @Configuration
 public class SecurityAutoConfiguration {

@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
- com.dire.guard.config.SecurityAutoConfiguration
+  com.dire.redis.RedisConfig
