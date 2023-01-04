@@ -1,4 +1,4 @@
-package com.dire.redis;
+package com.dire.core;
 
 import java.util.Arrays;
 

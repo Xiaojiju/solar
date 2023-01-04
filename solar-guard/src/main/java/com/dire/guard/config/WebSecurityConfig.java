@@ -26,20 +26,19 @@ import org.springframework.security.authentication.AuthenticationManager;
 public class WebSecurityConfig {
 
     private AuthenticationManager authenticationManager;
-    private HeaderTokenHandler HeaderTokenHandler;
 
-    public WebSecurityConfig(AuthenticationManager authenticationManager, HeaderTokenHandler HeaderTokenHandler) {
+    public WebSecurityConfig(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        this.HeaderTokenHandler = HeaderTokenHandler;
     }
 
     @Bean
     @ConditionalOnMissingBean(RequestBodyAuthenticationProcessingFilter.class)
-    public RequestBodyAuthenticationProcessingFilter requestBodyAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public RequestBodyAuthenticationProcessingFilter requestBodyAuthenticationFilter(
+            AuthenticationManager authenticationManager, HeaderTokenHandler headerTokenHandler) {
         RequestBodyAuthenticationProcessingFilter requestBodyAuthenticationProcessingFilter = new RequestBodyAuthenticationProcessingFilter();
         requestBodyAuthenticationProcessingFilter.setAuthenticationManager(authenticationManager);
         requestBodyAuthenticationProcessingFilter.setAuthenticationSuccessHandler(
-                new ReturnResponseAuthenticationSuccessHandler(HeaderTokenHandler));
+                new ReturnResponseAuthenticationSuccessHandler(headerTokenHandler));
         requestBodyAuthenticationProcessingFilter.setAuthenticationFailureHandler(new ReturnResponseAuthenticationFailHandler());
         return requestBodyAuthenticationProcessingFilter;
     }
@@ -56,13 +55,5 @@ public class WebSecurityConfig {
 
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-    }
-
-    public com.dire.guard.authentication.HeaderTokenHandler getHeaderTokenHandler() {
-        return HeaderTokenHandler;
-    }
-
-    public void setHeaderTokenHandler(com.dire.guard.authentication.HeaderTokenHandler headerTokenHandler) {
-        HeaderTokenHandler = headerTokenHandler;
     }
 }

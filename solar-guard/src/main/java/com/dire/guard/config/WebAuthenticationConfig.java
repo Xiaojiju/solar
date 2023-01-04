@@ -36,7 +36,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 @Configuration
 public class WebAuthenticationConfig {
 
-    private RedisTemplate<Object, Object> redisTemplate;
+    private final RedisTemplate<Object, Object> redisTemplate;
     private final WebSecurityProperties webSecurityProperties;
 
     public WebAuthenticationConfig(RedisTemplate<Object, Object> redisTemplate, WebSecurityProperties webSecurityProperties) {
@@ -66,19 +66,21 @@ public class WebAuthenticationConfig {
 
     @Bean
     @ConditionalOnMissingBean(HeaderTokenHandler.class)
-    public HeaderTokenHandler headerTokenHandler() {
+    public HeaderTokenHandler headerTokenHandler(RedisTemplate<Object, Object> redisTemplate) {
         return new Auth0HeaderTokenHandler(redisTemplate);
     }
 
     @Bean
     @ConditionalOnMissingBean(DaoAuthenticationProvider.class)
     public DaoAuthenticationProvider daoAuthenticationProvider(UserDetailsService userDetailsService,
-                                                               MessageSource messageSource) {
+                                                               MessageSource messageSource,
+                                                               RedisUserCache redisUserCache) {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setMessageSource(messageSource);
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
         daoAuthenticationProvider.setForcePrincipalAsString(false);
+        daoAuthenticationProvider.setUserCache(redisUserCache);
         return daoAuthenticationProvider;
     }
 
@@ -89,10 +91,6 @@ public class WebAuthenticationConfig {
 
     public RedisTemplate<Object, Object> getRedisTemplate() {
         return redisTemplate;
-    }
-
-    public void setRedisTemplate(RedisTemplate<Object, Object> redisTemplate) {
-        this.redisTemplate = redisTemplate;
     }
 
     public WebSecurityProperties getWebSecurityProperties() {

@@ -55,7 +55,8 @@ public class SecurityAutoConfiguration {
         security.logout().disable()
                 .csrf().disable()
                 .addFilterAfter(requestBodyAuthenticationProcessingFilter, LogoutFilter.class)
-                .addFilterAfter(requestBodyLogoutFilter, LogoutFilter.class);
+                .addFilterAfter(requestBodyLogoutFilter, LogoutFilter.class)
+                .sessionManagement().disable();
         return security.build();
     }
 

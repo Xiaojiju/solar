@@ -12,9 +12,9 @@ repositories {
 
 dependencies {
     api('org.springframework.boot:spring-boot-starter-security')
-    implementation project(':solar-tools')
+    api('org.springframework.boot:spring-boot-starter-data-redis')
+    api project(':solar-tools')
     api(project(':solar-core'))
     api(project(':components:datasource'))
-    api(project(':components:redis-data'))
-    implementation('com.auth0:java-jwt:4.0.0')
+    api('com.auth0:java-jwt:4.0.0')
 }

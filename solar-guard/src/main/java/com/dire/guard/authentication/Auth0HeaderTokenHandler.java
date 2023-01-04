@@ -40,7 +40,7 @@ public class Auth0HeaderTokenHandler implements HeaderTokenHandler {
 
     private final RedisTemplate<Object, Object> redisTemplate;
 
-    public Auth0HeaderTokenHandler(@NotNull RedisTemplate<Object, Object> redisTemplate) {
+    public Auth0HeaderTokenHandler(RedisTemplate<Object, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 

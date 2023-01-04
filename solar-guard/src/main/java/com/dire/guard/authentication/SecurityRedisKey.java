@@ -1,6 +1,6 @@
 package com.dire.guard.authentication;
 
-import com.dire.redis.RedisKey;
+import com.dire.core.RedisKey;
 
 import java.util.Arrays;
 
