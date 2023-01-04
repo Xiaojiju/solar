@@ -15,6 +15,9 @@
  */
 package com.dire.guard.config;
 
+import com.dire.guard.authentication.Auth0HeaderTokenHandler;
+import com.dire.guard.authentication.HeaderTokenHandler;
+import com.dire.guard.cache.RedisUserCache;
 import com.dire.guard.mapper.UserServiceMapper;
 import com.dire.guard.service.GrantAuthorityService;
 import com.dire.guard.service.NullGrantAuthorityServiceImpl;
@@ -23,6 +26,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -32,10 +36,18 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 @Configuration
 public class WebAuthenticationConfig {
 
+    private RedisTemplate<Object, Object> redisTemplate;
     private final WebSecurityProperties webSecurityProperties;
 
-    public WebAuthenticationConfig(WebSecurityProperties webSecurityProperties) {
+    public WebAuthenticationConfig(RedisTemplate<Object, Object> redisTemplate, WebSecurityProperties webSecurityProperties) {
+        this.redisTemplate = redisTemplate;
         this.webSecurityProperties = webSecurityProperties;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(RedisUserCache.class)
+    public RedisUserCache redisUserCache(RedisTemplate<Object, Object> redisTemplate) {
+        return new RedisUserCache(redisTemplate);
     }
 
     @Bean
@@ -53,6 +65,13 @@ public class WebAuthenticationConfig {
     }
 
     @Bean
+    @ConditionalOnMissingBean(HeaderTokenHandler.class)
+    public HeaderTokenHandler headerTokenHandler() {
+        return new Auth0HeaderTokenHandler(redisTemplate);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(DaoAuthenticationProvider.class)
     public DaoAuthenticationProvider daoAuthenticationProvider(UserDetailsService userDetailsService,
                                                                MessageSource messageSource) {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -66,5 +85,17 @@ public class WebAuthenticationConfig {
     @Bean
     public AuthenticationManager authenticationManager(DaoAuthenticationProvider daoAuthenticationProvider) {
         return new ProviderManager(daoAuthenticationProvider);
+    }
+
+    public RedisTemplate<Object, Object> getRedisTemplate() {
+        return redisTemplate;
+    }
+
+    public void setRedisTemplate(RedisTemplate<Object, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
+    public WebSecurityProperties getWebSecurityProperties() {
+        return webSecurityProperties;
     }
 }

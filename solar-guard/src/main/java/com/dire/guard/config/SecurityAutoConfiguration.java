@@ -16,8 +16,15 @@
 package com.dire.guard.config;
 
 import com.dire.guard.cache.RedisUserCache;
+import com.dire.guard.filter.RequestBodyAuthenticationProcessingFilter;
+import com.dire.guard.filter.RequestBodyLogoutFilter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 /**
  * 密码加密配置
@@ -33,4 +40,38 @@ import org.springframework.context.annotation.Import;
 @Configuration
 public class SecurityAutoConfiguration {
 
+    private RequestBodyLogoutFilter requestBodyLogoutFilter;
+    private RequestBodyAuthenticationProcessingFilter requestBodyAuthenticationProcessingFilter;
+
+    public SecurityAutoConfiguration(RequestBodyLogoutFilter requestBodyLogoutFilter,
+                                     RequestBodyAuthenticationProcessingFilter requestBodyAuthenticationProcessingFilter) {
+        this.requestBodyLogoutFilter = requestBodyLogoutFilter;
+        this.requestBodyAuthenticationProcessingFilter = requestBodyAuthenticationProcessingFilter;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(SecurityFilterChain.class)
+    public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
+        security.logout().disable()
+                .csrf().disable()
+                .addFilterAfter(requestBodyAuthenticationProcessingFilter, LogoutFilter.class)
+                .addFilterAfter(requestBodyLogoutFilter, LogoutFilter.class);
+        return security.build();
+    }
+
+    public RequestBodyLogoutFilter getRequestBodyLogoutFilter() {
+        return requestBodyLogoutFilter;
+    }
+
+    public void setRequestBodyLogoutFilter(RequestBodyLogoutFilter requestBodyLogoutFilter) {
+        this.requestBodyLogoutFilter = requestBodyLogoutFilter;
+    }
+
+    public RequestBodyAuthenticationProcessingFilter getRequestBodyAuthenticationProcessingFilter() {
+        return requestBodyAuthenticationProcessingFilter;
+    }
+
+    public void setRequestBodyAuthenticationProcessingFilter(RequestBodyAuthenticationProcessingFilter requestBodyAuthenticationProcessingFilter) {
+        this.requestBodyAuthenticationProcessingFilter = requestBodyAuthenticationProcessingFilter;
+    }
 }

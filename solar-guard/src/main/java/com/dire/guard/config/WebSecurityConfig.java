@@ -15,36 +15,22 @@
  */
 package com.dire.guard.config;
 
-import com.dire.guard.authentication.Auth0HeaderTokenHandler;
-import com.dire.guard.filter.RequestBodyAuthenticationProcessingFilter;
-import com.dire.guard.filter.ReturnResponseAuthenticationFailHandler;
-import com.dire.guard.filter.ReturnResponseAuthenticationSuccessHandler;
+import com.dire.guard.authentication.HeaderTokenHandler;
+import com.dire.guard.filter.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 @Configuration
 public class WebSecurityConfig {
 
     private AuthenticationManager authenticationManager;
-    private RedisTemplate<Object, Object> redisTemplate;
+    private HeaderTokenHandler HeaderTokenHandler;
 
-    public WebSecurityConfig(AuthenticationManager authenticationManager, RedisTemplate<Object, Object> redisTemplate) {
+    public WebSecurityConfig(AuthenticationManager authenticationManager, HeaderTokenHandler HeaderTokenHandler) {
         this.authenticationManager = authenticationManager;
-        this.redisTemplate = redisTemplate;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(SecurityFilterChain.class)
-    public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
-        security.addFilterAfter(requestBodyAuthenticationFilter(authenticationManager), LogoutFilter.class);
-        security.csrf().disable();
-        return security.build();
+        this.HeaderTokenHandler = HeaderTokenHandler;
     }
 
     @Bean
@@ -53,9 +39,15 @@ public class WebSecurityConfig {
         RequestBodyAuthenticationProcessingFilter requestBodyAuthenticationProcessingFilter = new RequestBodyAuthenticationProcessingFilter();
         requestBodyAuthenticationProcessingFilter.setAuthenticationManager(authenticationManager);
         requestBodyAuthenticationProcessingFilter.setAuthenticationSuccessHandler(
-                new ReturnResponseAuthenticationSuccessHandler(new Auth0HeaderTokenHandler(redisTemplate)));
+                new ReturnResponseAuthenticationSuccessHandler(HeaderTokenHandler));
         requestBodyAuthenticationProcessingFilter.setAuthenticationFailureHandler(new ReturnResponseAuthenticationFailHandler());
         return requestBodyAuthenticationProcessingFilter;
+    }
+
+    @Bean
+    public RequestBodyLogoutFilter requestBodyLogoutFilter(HeaderTokenHandler headerTokenHandler) {
+        return new RequestBodyLogoutFilter(
+                new JsonBasedLogoutSuccessHandler(), new CacheClearLogoutHandler(headerTokenHandler));
     }
 
     public AuthenticationManager getAuthenticationManager() {
@@ -64,5 +56,13 @@ public class WebSecurityConfig {
 
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
+    }
+
+    public com.dire.guard.authentication.HeaderTokenHandler getHeaderTokenHandler() {
+        return HeaderTokenHandler;
+    }
+
+    public void setHeaderTokenHandler(com.dire.guard.authentication.HeaderTokenHandler headerTokenHandler) {
+        HeaderTokenHandler = headerTokenHandler;
     }
 }

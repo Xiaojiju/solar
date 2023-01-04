@@ -21,8 +21,6 @@ public class CoreExampleApplication {
 
     public static void main(String[] args) {
         ApplicationContext applicationContext = SpringApplication.run(CoreExampleApplication.class, args);
-        SecurityFilterChain securityFilterChain = applicationContext.getBean(SecurityFilterChain.class);
-        System.out.println(securityFilterChain.getFilters());
     }
 
     @GetMapping("")
