@@ -1,4 +1,4 @@
-package com.dire.guard;
+package com.dire.guard.context;
 
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;

@@ -1,6 +1,6 @@
 package com.dire.guard.authentication;
 
-import com.dire.guard.SolarMessageSource;
+import com.dire.guard.context.SolarMessageSource;
 import com.dire.guard.UserTemplate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

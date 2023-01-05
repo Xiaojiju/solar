@@ -32,6 +32,7 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
  * @since 1.0.0
  */
 @Import({
+        SecurityServiceAutoConfigure.class,
         WebSecurityConfig.class,
         WebAuthenticationConfig.class,
         WebSecurityProperties.class,

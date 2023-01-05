@@ -35,7 +35,7 @@ public class UserFromJdbcImpl implements UserDetailsService, MessageSourceAware 
 
     public UserFromJdbcImpl(UserServiceMapper userServiceMapper) {
         this.userServiceMapper = userServiceMapper;
-        this.enablePermissions = true;
+        this.enablePermissions = false;
     }
 
     public UserFromJdbcImpl(UserServiceMapper userServiceMapper, boolean enablePermissions) {

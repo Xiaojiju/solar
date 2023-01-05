@@ -4,7 +4,7 @@ import com.dire.core.ResultCode;
 import com.dire.core.context.response.RestResult;
 import com.dire.guard.ResponseUtils;
 import com.dire.guard.SecurityCode;
-import com.dire.guard.SolarMessageSource;
+import com.dire.guard.context.SolarMessageSource;
 import com.dire.tools.JSONUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;

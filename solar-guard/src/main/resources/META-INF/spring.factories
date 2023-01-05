@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
- com.dire.guard.config.SecurityAutoConfiguration
+ com.dire.guard.config.SecurityAutoConfiguration,\
+ com.dire.guard.web.api.UserManageController

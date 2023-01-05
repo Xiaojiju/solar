@@ -6,9 +6,7 @@ import com.dire.util.Target;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +18,7 @@ import java.util.List;
 public class CoreExampleApplication {
 
     public static void main(String[] args) {
-        ApplicationContext applicationContext = SpringApplication.run(CoreExampleApplication.class, args);
+        SpringApplication.run(CoreExampleApplication.class, args);
     }
 
     @GetMapping("")

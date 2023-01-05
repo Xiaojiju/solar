@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public final class ResponseUtils {
 
-    public static final String DEFAULT_APPLICATION_CONTENT_TYPE = "application/json;charset=utf=8";
+    public static final String DEFAULT_APPLICATION_CONTENT_TYPE = "application/json;charset=utf-8";
 
     public static void writeObject(HttpServletResponse response, String text) throws IOException {
         response.setContentType(DEFAULT_APPLICATION_CONTENT_TYPE);

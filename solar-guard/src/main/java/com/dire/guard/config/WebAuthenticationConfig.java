@@ -19,10 +19,6 @@ import com.dire.guard.authentication.Auth0HeaderTokenHandler;
 import com.dire.guard.authentication.HeaderTokenHandler;
 import com.dire.guard.authentication.UserTemplatePreAuthenticationChecks;
 import com.dire.guard.cache.RedisUserCache;
-import com.dire.guard.mapper.UserServiceMapper;
-import com.dire.guard.service.GrantAuthorityService;
-import com.dire.guard.service.NullGrantAuthorityServiceImpl;
-import com.dire.guard.service.UserFromJdbcImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -49,20 +45,6 @@ public class WebAuthenticationConfig {
     @ConditionalOnMissingBean(RedisUserCache.class)
     public RedisUserCache redisUserCache(RedisTemplate<Object, Object> redisTemplate) {
         return new RedisUserCache(redisTemplate);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(GrantAuthorityService.class)
-    public GrantAuthorityService grantAuthorityService() {
-        return new NullGrantAuthorityServiceImpl();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(UserDetailsService.class)
-    public UserDetailsService userTemplateService(UserServiceMapper userServiceMapper, MessageSource messageSource) {
-        UserFromJdbcImpl userFromJdbc = new UserFromJdbcImpl(userServiceMapper, webSecurityProperties.isEnablePermissions());
-        userFromJdbc.setMessageSource(messageSource);
-        return userFromJdbc;
     }
 
     @Bean
