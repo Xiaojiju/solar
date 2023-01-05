@@ -18,3 +18,4 @@ dependencies {
     api(project(':components:datasource'))
     api('com.auth0:java-jwt:4.0.0')
 }
+

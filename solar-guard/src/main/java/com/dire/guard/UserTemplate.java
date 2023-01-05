@@ -84,7 +84,7 @@ public class UserTemplate implements MultiAuthenticationUserDetails, Credentials
     }
 
     @Override
-    public boolean isCurrentMethodExpired() {
+    public boolean isCurrentMethodNonExpired() {
         return this.credentialsNonExpired;
     }
 

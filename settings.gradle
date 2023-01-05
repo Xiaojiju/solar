@@ -14,5 +14,4 @@ include 'solar-tools'
 include 'components'
 include 'components:datasource'
 include 'solar-actuator'
-include 'components:redis-data'
 

@@ -25,6 +25,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.web.servlet.LocaleResolver;
 
 
 /**
@@ -49,5 +50,10 @@ public class CoreAutoConfiguration {
     @ConditionalOnMissingBean
     public ResponseBodyHandler responseBodyHandler() {
         return new DefaultResponseBodyAdvice();
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        return new SolarLocaleResolver();
     }
 }

@@ -82,7 +82,7 @@ public class UserFromJdbcImpl implements UserDetailsService, MessageSourceAware 
         UserTemplate userTemplate = (UserTemplate) userDetails;
         return UserTemplate.builder().username(userTemplate.getUsername())
                 .password(userTemplate.getPassword())
-                .methodExpired(!userTemplate.isCurrentMethodExpired())
+                .methodExpired(!userTemplate.isCurrentMethodNonExpired())
                 .credentialsExpired(!userTemplate.isCredentialsNonExpired())
                 .disabled(!userTemplate.isEnabled())
                 .currentMethodLocked(!userTemplate.isCurrentMethodNonLocked())

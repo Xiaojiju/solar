@@ -17,6 +17,7 @@ package com.dire.guard.config;
 
 import com.dire.guard.authentication.Auth0HeaderTokenHandler;
 import com.dire.guard.authentication.HeaderTokenHandler;
+import com.dire.guard.authentication.UserTemplatePreAuthenticationChecks;
 import com.dire.guard.cache.RedisUserCache;
 import com.dire.guard.mapper.UserServiceMapper;
 import com.dire.guard.service.GrantAuthorityService;
@@ -81,6 +82,7 @@ public class WebAuthenticationConfig {
         daoAuthenticationProvider.setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
         daoAuthenticationProvider.setForcePrincipalAsString(false);
         daoAuthenticationProvider.setUserCache(redisUserCache);
+        daoAuthenticationProvider.setPreAuthenticationChecks(new UserTemplatePreAuthenticationChecks());
         return daoAuthenticationProvider;
     }
 

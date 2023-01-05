@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: duanfa00Andfuck
-    url: jdbc:mysql://gz-cynosdbmysql-grp-j0hl5ful.sql.tencentcdb.com:24851/medusa?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    password: sanshi1212.
+    url: jdbc:mysql://116.204.105.249:3306/medusa?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
   redis:
     database: 2
     host: 101.43.221.142

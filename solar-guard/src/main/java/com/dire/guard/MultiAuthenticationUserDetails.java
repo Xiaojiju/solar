@@ -6,7 +6,7 @@ public interface MultiAuthenticationUserDetails extends UserDetails {
 
     String getCurrentMethod();
 
-    boolean isCurrentMethodExpired();
+    boolean isCurrentMethodNonExpired();
 
     boolean isCurrentMethodNonLocked();
 
