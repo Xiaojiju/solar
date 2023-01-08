@@ -1,7 +1,7 @@
 package com.dire.guard.authentication;
 
-import com.dire.guard.context.SolarMessageSource;
 import com.dire.guard.UserTemplate;
+import com.dire.guard.context.SolarMessageSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;

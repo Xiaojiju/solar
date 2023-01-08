@@ -15,7 +15,7 @@
  */
 package com.dire.guard.config;
 
-import com.dire.guard.authentication.HeaderTokenHandler;
+import com.dire.guard.authentication.JsonBasedAccessTokenProvider;
 import com.dire.guard.filter.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -34,19 +34,19 @@ public class WebSecurityConfig {
     @Bean
     @ConditionalOnMissingBean(RequestBodyAuthenticationProcessingFilter.class)
     public RequestBodyAuthenticationProcessingFilter requestBodyAuthenticationFilter(
-            AuthenticationManager authenticationManager, HeaderTokenHandler headerTokenHandler) {
+            AuthenticationManager authenticationManager, JsonBasedAccessTokenProvider jsonBasedAccessTokenProvider) {
         RequestBodyAuthenticationProcessingFilter requestBodyAuthenticationProcessingFilter = new RequestBodyAuthenticationProcessingFilter();
         requestBodyAuthenticationProcessingFilter.setAuthenticationManager(authenticationManager);
         requestBodyAuthenticationProcessingFilter.setAuthenticationSuccessHandler(
-                new ReturnResponseAuthenticationSuccessHandler(headerTokenHandler));
+                new ReturnResponseAuthenticationSuccessHandler(jsonBasedAccessTokenProvider));
         requestBodyAuthenticationProcessingFilter.setAuthenticationFailureHandler(new ReturnResponseAuthenticationFailHandler());
         return requestBodyAuthenticationProcessingFilter;
     }
 
     @Bean
-    public RequestBodyLogoutFilter requestBodyLogoutFilter(HeaderTokenHandler headerTokenHandler) {
+    public RequestBodyLogoutFilter requestBodyLogoutFilter(JsonBasedAccessTokenProvider jsonBasedAccessTokenProvider) {
         return new RequestBodyLogoutFilter(
-                new JsonBasedLogoutSuccessHandler(), new CacheClearLogoutHandler(headerTokenHandler));
+                new JsonBasedLogoutSuccessHandler(), new CacheClearLogoutHandler(jsonBasedAccessTokenProvider));
     }
 
     public AuthenticationManager getAuthenticationManager() {

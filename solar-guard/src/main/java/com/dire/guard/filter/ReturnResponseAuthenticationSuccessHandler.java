@@ -2,8 +2,11 @@ package com.dire.guard.filter;
 
 import com.dire.core.context.response.RestResult;
 import com.dire.guard.ResponseUtils;
-import com.dire.guard.authentication.HeaderTokenHandler;
+import com.dire.guard.UserTemplate;
+import com.dire.guard.authentication.AccessTokenProvider;
+import com.dire.guard.authentication.SignToken;
 import com.dire.tools.JSONUtils;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -15,10 +18,10 @@ import java.io.IOException;
 
 public class ReturnResponseAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private HeaderTokenHandler headerTokenHandler;
+    private AccessTokenProvider accessTokenProvider;
 
-    public ReturnResponseAuthenticationSuccessHandler(HeaderTokenHandler headerTokenHandler) {
-        this.headerTokenHandler = headerTokenHandler;
+    public ReturnResponseAuthenticationSuccessHandler(AccessTokenProvider accessTokenProvider) {
+        this.accessTokenProvider = accessTokenProvider;
     }
 
     @Override
@@ -34,14 +37,16 @@ public class ReturnResponseAuthenticationSuccessHandler implements Authenticatio
     }
 
     protected Authentication makeToken(Authentication authentication) throws AccountExpiredException {
-        return  headerTokenHandler.createToken(authentication);
+        SignToken securityToken = accessTokenProvider.create(authentication.getPrincipal());
+        UserTemplate userTemplate = (UserTemplate) authentication.getPrincipal();
+        return new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), securityToken, userTemplate.getAuthorities());
     }
 
-    public HeaderTokenHandler getHeaderTokenHandler() {
-        return headerTokenHandler;
+    public AccessTokenProvider getAccessTokenProvider() {
+        return accessTokenProvider;
     }
 
-    public void setHeaderTokenHandler(HeaderTokenHandler headerTokenHandler) {
-        this.headerTokenHandler = headerTokenHandler;
+    public void setAccessTokenProvider(AccessTokenProvider accessTokenProvider) {
+        this.accessTokenProvider = accessTokenProvider;
     }
 }

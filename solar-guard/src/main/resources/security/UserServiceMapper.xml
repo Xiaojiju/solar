@@ -21,7 +21,7 @@
             `u`.`u_id` `uniqueId`,
             `u`.`alive` `enabled`,
             `ur`.`reference_key` `currentReferenceKey`,
-            `ur`.`login_access` `currentMethodLocked`,
+            IF(`ur`.`login_access` = 1, 0, 1) `currentMethodLocked`,
             `ur`.`identifier` `currentMethod`,
             `ur`.`expired_time` `methodExpired`,
             `s`.`secret_expired_time` `credentialsExpired`,

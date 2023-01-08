@@ -15,8 +15,7 @@
  */
 package com.dire.guard.config;
 
-import com.dire.guard.authentication.Auth0HeaderTokenHandler;
-import com.dire.guard.authentication.HeaderTokenHandler;
+import com.dire.guard.authentication.JsonBasedAccessTokenProvider;
 import com.dire.guard.authentication.UserTemplatePreAuthenticationChecks;
 import com.dire.guard.cache.RedisUserCache;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -48,9 +47,9 @@ public class WebAuthenticationConfig {
     }
 
     @Bean
-    @ConditionalOnMissingBean(HeaderTokenHandler.class)
-    public HeaderTokenHandler headerTokenHandler(RedisTemplate<Object, Object> redisTemplate) {
-        return new Auth0HeaderTokenHandler(redisTemplate);
+    @ConditionalOnMissingBean(JsonBasedAccessTokenProvider.class)
+    public JsonBasedAccessTokenProvider jsonBasedAccessTokenProvider() {
+        return new JsonBasedAccessTokenProvider();
     }
 
     @Bean

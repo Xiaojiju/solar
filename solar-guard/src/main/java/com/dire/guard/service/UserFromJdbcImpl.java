@@ -101,11 +101,11 @@ public class UserFromJdbcImpl implements UserDetailsService, MessageSourceAware 
         boolean credentialsExpired = false, methodExpired = false;
         LocalDateTime credentialsExpiredTime = userDto.getCredentialsExpired();
         if (credentialsExpiredTime != null) {
-            credentialsExpired = credentialsExpiredTime.isAfter(now);
+            credentialsExpired = credentialsExpiredTime.isBefore(now);
         }
         LocalDateTime methodExpiredTime = userDto.getMethodExpired();
         if (methodExpiredTime != null) {
-            methodExpired = methodExpiredTime.isAfter(now);
+            methodExpired = methodExpiredTime.isBefore(now);
         }
         return new UserTemplate(userDto.getUniqueId(), userDto.getSecretKey(), Collections.emptySet(),
                 !methodExpired, !credentialsExpired, userDto.getEnabled() == Judge.YES,

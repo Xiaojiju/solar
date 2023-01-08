@@ -14,7 +14,7 @@ import java.util.function.Function;
 public class UserTemplate implements MultiAuthenticationUserDetails, CredentialsContainer {
 
     private final String username;
-    private String password;
+    private transient String password;
     private final Set<GrantedAuthority> authorities;
     private final boolean methodNonExpired;
     private final boolean credentialsNonExpired;
