@@ -10,6 +10,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //import org.springframework.data.redis.core.RedisTemplate;
 //import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 //import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,13 +30,16 @@ public class CoreExampleApplication {
         SpringApplication.run(CoreExampleApplication.class, args);
     }
 
-//    @Bean
-//    public RedisTemplate<Object, Object> redisTemplate() {
-//        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
-//        redisTemplate.setKeySerializer(new StringRedisSerializer());
-//        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-//        return redisTemplate;
-//    }
+    @Bean
+    public RedisTemplate<String, String> redisTemplate() {
+        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory();
+        lettuceConnectionFactory.afterPropertiesSet();
+        redisTemplate.setConnectionFactory(lettuceConnectionFactory);
+        return redisTemplate;
+    }
 
     @GetMapping("")
     public RestResult<String> test(@RequestParam Target<String> test) {

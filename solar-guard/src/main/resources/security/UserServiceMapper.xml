@@ -28,8 +28,8 @@
             `s`.`secret_key` `secretKey`
         FROM
             `solar_user_reference` `ur`
-                LEFT JOIN `solar_secret` `s` ON `ur`.`s_id` = `s`.`s_id`
-                LEFT JOIN `solar_user` `u` ON `ur`.`u_id` = `u`.`u_id`
+            LEFT JOIN `solar_secret` `s` ON `ur`.`u_id` = `s`.`u_id`
+            LEFT JOIN `solar_user` `u` ON `s`.`u_id` = `u`.`u_id`
         WHERE
             `ur`.`reference_key` = #{ referenceKey }
     </select>

@@ -15,6 +15,6 @@ dependencies {
     api project(':solar-tools')
     api(project(':solar-core'))
     api(project(':components:datasource'))
-    api('com.auth0:java-jwt:4.0.0')
+    api('com.auth0:java-jwt:4.2.1')
 }
 
