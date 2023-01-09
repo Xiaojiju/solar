@@ -14,15 +14,15 @@ import org.springframework.util.StringUtils;
 public class RedisUserCache implements UserCache {
 
     protected Logger logger = LoggerFactory.getLogger(RedisUserCache.class);
-    private final RedisTemplate<Object, Object> redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
 
-    public RedisUserCache(RedisTemplate<Object, Object> redisTemplate) {
+    public RedisUserCache(RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
     @Override
     public UserDetails getUserFromCache(String username) {
-        BoundValueOperations<Object, Object> ops = getOperations(username);
+        BoundValueOperations<String, String> ops = getOperations(username);
         String details = (String) ops.get();
         if (StringUtils.hasText(details)) {
             try {
@@ -43,7 +43,7 @@ public class RedisUserCache implements UserCache {
         try {
             UserTemplate authority = (UserTemplate) user;
             String authorityValue = JSONUtils.toJsonString(authority);
-            BoundValueOperations<Object, Object> ops = getOperations(authority.getUsername());
+            BoundValueOperations<String, String> ops = getOperations(authority.getUsername());
             ops.set(authorityValue);
         } catch (Exception e) {
             if (logger.isDebugEnabled()) {
@@ -60,12 +60,14 @@ public class RedisUserCache implements UserCache {
         redisTemplate.delete(getKey(username));
     }
 
-    private BoundValueOperations<Object, Object> getOperations(String username) {
+    private BoundValueOperations<String, String> getOperations(String username) {
         String key = getKey(username);
         return redisTemplate.boundValueOps(key);
     }
 
     private String getKey(String username) {
-        return SecurityRedisKey.makeKey(SecurityRedisKey.TARGET_USER_CACHE, username);
+        String key = SecurityRedisKey.makeKey(SecurityRedisKey.TARGET_USER_CACHE, username);
+        System.out.println(key);
+        return key;
     }
 }

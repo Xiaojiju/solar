@@ -38,7 +38,6 @@ public class UserTemplatePreAuthenticationChecks implements UserDetailsChecker, 
     }
 
     private void AccountCheck(UserTemplate user) {
-        System.out.println(this.messages.getMessage("UserTemplatePreAuthenticationChecks.locked"));
         if (!user.isAccountNonLocked()) {
             UserTemplatePreAuthenticationChecks.this.logger
                     .debug("Failed to authenticate since user account is locked");

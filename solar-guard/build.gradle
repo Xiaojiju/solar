@@ -12,7 +12,6 @@ repositories {
 
 dependencies {
     api('org.springframework.boot:spring-boot-starter-security')
-    api('org.springframework.boot:spring-boot-starter-data-redis')
     api project(':solar-tools')
     api(project(':solar-core'))
     api(project(':components:datasource'))

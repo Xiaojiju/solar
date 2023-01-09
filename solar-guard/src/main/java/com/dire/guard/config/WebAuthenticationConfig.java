@@ -32,17 +32,17 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 @Configuration
 public class WebAuthenticationConfig {
 
-    private final RedisTemplate<Object, Object> redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
     private final WebSecurityProperties webSecurityProperties;
 
-    public WebAuthenticationConfig(RedisTemplate<Object, Object> redisTemplate, WebSecurityProperties webSecurityProperties) {
+    public WebAuthenticationConfig(RedisTemplate<String, String> redisTemplate, WebSecurityProperties webSecurityProperties) {
         this.redisTemplate = redisTemplate;
         this.webSecurityProperties = webSecurityProperties;
     }
 
     @Bean
     @ConditionalOnMissingBean(RedisUserCache.class)
-    public RedisUserCache redisUserCache(RedisTemplate<Object, Object> redisTemplate) {
+    public RedisUserCache redisUserCache(RedisTemplate<String, String> redisTemplate) {
         return new RedisUserCache(redisTemplate);
     }
 
@@ -72,7 +72,7 @@ public class WebAuthenticationConfig {
         return new ProviderManager(daoAuthenticationProvider);
     }
 
-    public RedisTemplate<Object, Object> getRedisTemplate() {
+    public RedisTemplate<String, String> getRedisTemplate() {
         return redisTemplate;
     }
 

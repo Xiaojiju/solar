@@ -9,6 +9,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.UserDetailsManager;
 
@@ -41,6 +45,17 @@ public class SecurityServiceAutoConfigure {
         UserTemplateDetailsManager manager = new UserTemplateDetailsManager(userServiceMapper);
         manager.setMessageSource(messageSource);
         return manager;
+    }
+
+    @Bean
+    public RedisTemplate<String, String> redisTemplate() {
+        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory();
+        lettuceConnectionFactory.afterPropertiesSet();
+        redisTemplate.setConnectionFactory(lettuceConnectionFactory);
+        return redisTemplate;
     }
 
     public WebSecurityProperties getWebSecurityProperties() {
